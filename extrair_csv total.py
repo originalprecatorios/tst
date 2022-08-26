@@ -2,9 +2,8 @@ import pandas as pd
 from pymongo import MongoClient
 import locale
 from bd.class_mongo import Mongo
-from decouple import config
 from regex import I
-
+import os
 
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
@@ -103,7 +102,7 @@ def movimento(df,instancia):
 
 
 if __name__ == '__main__':
-    mongo = Mongo(config('MONGO_USER_PROD'), config('MONGO_PASS_PROD'), config('MONGO_HOST_PROD'), config('MONGO_PORT_PROD'), config('MONGO_DB_PROD'), config('AMBIENTE_PROD'))
+    mongo = Mongo(os.environ['MONGO_USER_PROD'], os.environ['MONGO_PASS_PROD'], os.environ['MONGO_HOST_PROD'], os.environ['MONGO_PORT_PROD'], os.environ['MONGO_DB_PROD'], os.environ['AMBIENTE_PROD'])
     mongo._getcoll('contas')
     filiais = mongo.returnQuery()
     fil = []

@@ -37,7 +37,7 @@ class Tst:
         'sec-ch-ua-platform': '"Linux"'
         }
 
-        response = requests.request("GET", url, headers=headers, data=payload, timeout=30)
+        response = requests.request("GET", url, headers=headers, data=payload)
 
         if response.text.find('Não foi encontrado nenhum processo dessa parte') >= 0 or response.text.find('504 Gateway Time-out') >= 0:
             return None
@@ -77,7 +77,7 @@ class Tst:
         'Sec-Fetch-User': '?1'
         }
 
-        response = requests.request("GET", url, headers=headers, data=payload,timeout=30)
+        response = requests.request("GET", url, headers=headers, data=payload)
         if response.text.find('Não foi encontrado nenhum processo dessa parte') >= 0 or response.text.find('504 Gateway Time-out') >= 0:
             return None
         else:
@@ -91,7 +91,7 @@ class Tst:
 
             url = f"https://consultaprocessual.tst.jus.br/consultaProcessual/consultaTstNumUnica.do?consulta=Consultar&conscsjt=&numeroTst={self.processo.split('-')[0]}&digitoTst={self.processo.split('-')[1].split('.')[0]}&anoTst={self.processo.split('.')[1].split('.')[0]}&orgaoTst={self.processo.split('.')[2].split('.')[0]}&tribunalTst={self.processo.split('.')[3].split('.')[0]}&varaTst={self.processo.split('.')[4].split('.')[0]}&submit=Consultar"
 
-            response = requests.get(url,timeout=30)
+            response = requests.get(url)
 
             self._soup = BeautifulSoup(response.text, 'html.parser')
         except Exception as e:

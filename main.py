@@ -7,6 +7,7 @@ from apscheduler.events import EVENT_JOB_ERROR
 from apscheduler.executors.pool import ProcessPoolExecutor, ThreadPoolExecutor
 from apscheduler.schedulers.background import BackgroundScheduler
 import pytz, time, os
+from datetime import datetime
 
 def tst_initial():
     mongo = Mongo(os.environ['MONGO_USER_PROD'], os.environ['MONGO_PASS_PROD'], os.environ['MONGO_HOST_PROD'], os.environ['MONGO_PORT_PROD'], os.environ['MONGO_DB_PROD'], os.environ['AMBIENTE_PROD'])
@@ -21,13 +22,17 @@ def tst_initial():
         fil.append(filial)
     
     for f in fil:
-        t = Tst(f,mongo,erro,st)
-        lis_process = t.get_process()
-        if lis_process is not None:
-            for lis in lis_process:
-                t.consulta(lis)
-                t.save_process()
-        list_process = []
+        try:
+            t = Tst(f,mongo,erro,st)
+            lis_process = t.get_process()
+            if lis_process is not None:
+                for lis in lis_process:
+                    t.consulta(lis)
+                    t.save_process()
+            list_process = []
+        except:
+            print('Não foi possivel realizar a captura')
+            pass
     
     del mongo
     del erro
